@@ -13,6 +13,20 @@ typecho附件上传至阿里云OSS
 - 开始撰写文章体验附件上传
 
 
+## 截图
+* ①上传至:/usr/plugins,插件文件名应为`OSS`
+ ![上传至:/usr/plugins](http://7xnngc.com1.z0.glb.clouddn.com/1.png)
+
+* ②启用插件
+ ![上传至:/usr/plugins](http://7xnngc.com1.z0.glb.clouddn.com/2.png)
+
+* ③填写配置信息,保存
+ ![填写配置信息,保存](http://7xnngc.com1.z0.glb.clouddn.com/3.png)
+
+* ③开始撰写文章体验附件上传
+ ![开始撰写文章体验附件上传](http://7xnngc.com1.z0.glb.clouddn.com/4.png)
+ 
+ 
 ###请注意:
 > * 不要随意修改插件文件夹名,要与`Plugin.php`中的{$name}_Plugin一致
 > * 所选地域要与bucket一致
