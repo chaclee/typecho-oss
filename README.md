@@ -6,14 +6,7 @@ typecho附件上传至阿里云OSS
 
 > 参考[OSS开发者资源]    —— [OSS文档](http://www.aliyun.com/product/oss?spm=5176.2020520105.103.15.HAyFbj#Help) 
 
-**使用方法**
-- 上传至:/usr/plugins
-- 启用插件
-- 填写配置信息,保存
-- 开始撰写文章体验附件上传
-
-
-## 截图
+## 使用方法
 * ①上传至:/usr/plugins,插件文件名应为`OSS`
  ![上传至:/usr/plugins](http://7xnngc.com1.z0.glb.clouddn.com/1.png)
 
