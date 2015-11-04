@@ -8,25 +8,25 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  * @version 1.0.0
  * @link https://github.com/rainwsy
  */
-class OSS_Plugin implements Typecho_Plugin_Interface
+class ALIOSS_Plugin implements Typecho_Plugin_Interface
 {
     // 激活插件
     public static function activate()
     {
         Typecho_Plugin::factory('Widget_Upload')->uploadHandle = array(
-            'OSS_Plugin',
+            'ALIOSS_Plugin',
             'uploadHandle'
         );
         Typecho_Plugin::factory('Widget_Upload')->modifyHandle = array(
-            'OSS_Plugin',
+            'ALIOSS_Plugin',
             'modifyHandle'
         );
         Typecho_Plugin::factory('Widget_Upload')->deleteHandle = array(
-            'OSS_Plugin',
+            'ALIOSS_Plugin',
             'deleteHandle'
         );
         Typecho_Plugin::factory('Widget_Upload')->attachmentHandle = array(
-            'OSS_Plugin',
+            'ALIOSS_Plugin',
             'attachmentHandle'
         );
         return _t('插件已经激活，请设置OSS信息！');
@@ -78,7 +78,7 @@ class OSS_Plugin implements Typecho_Plugin_Interface
     // 获得插件配置信息
     public static function getConfig()
     {
-        return Typecho_Widget::widget('Widget_Options')->plugin('OSS');
+        return Typecho_Widget::widget('Widget_Options')->plugin('ALIOSS_Plugin');
     }
     
     // 初始化OSS SDK

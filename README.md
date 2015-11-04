@@ -7,8 +7,8 @@ typecho附件上传至阿里云OSS
 > 参考[OSS开发者资源]    —— [OSS文档](http://www.aliyun.com/product/oss?spm=5176.2020520105.103.15.HAyFbj#Help) 
 
 ## 使用方法
-* ①上传至:/usr/plugins,插件文件名应为`OSS`
- ![上传至:/usr/plugins](http://7xnngc.com1.z0.glb.clouddn.com/1.png)
+* ①ALIOSS.zip解压出来的`ALIOSS`文件夹上传至:/usr/plugins,插件文件名应为`ALIOSS`
+ ![上传至:/usr/plugins](http://7xjkan.com1.z0.glb.clouddn.com/oss1.png)
 
 * ②启用插件
  ![上传至:/usr/plugins](http://7xnngc.com1.z0.glb.clouddn.com/2.png)
@@ -21,7 +21,7 @@ typecho附件上传至阿里云OSS
  
  
 ###请注意:
-> * 不要随意修改插件文件夹名,要与`Plugin.php`中的{$name}_Plugin一致
+> * 不要随意修改插件文件夹名,要与`Plugin.php`中的{$name}_Plugin一致,否则无法使用
 > * 所选地域要与bucket一致
 
 
