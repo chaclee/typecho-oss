@@ -1,32 +1,32 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 /**
- * typecho附件上传阿里云OSS
+ * typecho附件上传阿里云OSS,基于OSS 1.1.7文档开发
  *
  * @package 阿里云OSS文件上传
  * @author raintao
- * @version 1.0.0
+ * @version 1.0.1
  * @link https://github.com/rainwsy
  */
-class ALIOSS_Plugin implements Typecho_Plugin_Interface
+class AliOSS_Plugin implements Typecho_Plugin_Interface
 {
     // 激活插件
     public static function activate()
     {
         Typecho_Plugin::factory('Widget_Upload')->uploadHandle = array(
-            'ALIOSS_Plugin',
+            'AliOSS_Plugin',
             'uploadHandle'
         );
         Typecho_Plugin::factory('Widget_Upload')->modifyHandle = array(
-            'ALIOSS_Plugin',
+            'AliOSS_Plugin',
             'modifyHandle'
         );
         Typecho_Plugin::factory('Widget_Upload')->deleteHandle = array(
-            'ALIOSS_Plugin',
+            'AliOSS_Plugin',
             'deleteHandle'
         );
         Typecho_Plugin::factory('Widget_Upload')->attachmentHandle = array(
-            'ALIOSS_Plugin',
+            'AliOSS_Plugin',
             'attachmentHandle'
         );
         return _t('插件已经激活，请设置OSS信息！');
@@ -78,7 +78,7 @@ class ALIOSS_Plugin implements Typecho_Plugin_Interface
     // 获得插件配置信息
     public static function getConfig()
     {
-        return Typecho_Widget::widget('Widget_Options')->plugin('ALIOSS_Plugin');
+        return Typecho_Widget::widget('Widget_Options')->plugin('AliOSS');
     }
     
     // 初始化OSS SDK
