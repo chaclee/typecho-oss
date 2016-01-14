@@ -11,13 +11,10 @@ typecho附件上传至阿里云OSS
 
 `ALIOSS-V1.0.0.zip为1.0.0版本的插件`
 * ②启用插件
- ![上传至:/usr/plugins](http://7xnngc.com1.z0.glb.clouddn.com/2.png)
 
 * ③填写配置信息,保存
- ![填写配置信息,保存](http://7xnngc.com1.z0.glb.clouddn.com/3.png)
 
 * ③开始撰写文章体验附件上传
- ![开始撰写文章体验附件上传](http://7xnngc.com1.z0.glb.clouddn.com/4.png)
  
  
 ###请注意:
