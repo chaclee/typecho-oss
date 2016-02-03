@@ -1,4 +1,3 @@
-# 欢迎使用typecho OSS云存储
 typecho附件上传至阿里云OSS
 
 ******
