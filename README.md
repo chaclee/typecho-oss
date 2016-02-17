@@ -6,9 +6,8 @@ typecho附件上传至阿里云OSS
 > 参考[OSS开发者资源]    —— [OSS文档](http://www.aliyun.com/product/oss?spm=5176.2020520105.103.15.HAyFbj#Help) 
 
 ## 使用方法
-* ①`AliOSS`文件夹上传至:/usr/plugins,插件文件名应为`AliOSS`
+* ①`AliOSS`文件夹上传至:/usr/plugins,插件文件名应为`AliOSS` ![示例](https://o0z4bgym5.qnssl.com/QQ%E5%9B%BE%E7%89%8720160217142457.png)
 
-`ALIOSS-V1.0.0.zip为1.0.0版本的插件`
 * ②启用插件
 
 * ③填写配置信息,保存
