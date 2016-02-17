@@ -52,25 +52,34 @@ class AliOSS_Plugin implements Typecho_Plugin_Interface
             "oss-cn-hangzhou.aliyuncs.com" => _t('杭州'),
             "oss-cn-shanghai.aliyuncs.com" => _t('上海')
         );
-        
+
         $endpoint = new Typecho_Widget_Helper_Form_Element_Select('endpoint', $endpointList, 'oss-cn-beijing.aliyuncs.com', _t('所属地域'), _t('请选择<strong style="color:#C33;">bucket对应节点</strong>,否则无法使用,默认为北京！'));
         $form->addInput($endpoint->addRule('required', _t('所属地域 不能为空！')));
         $bucket = new Typecho_Widget_Helper_Form_Element_Text('bucket', null, null, _t('Bucket名称：'));
         $form->addInput($bucket->addRule('required', _t('“空间名称”不能为空！')));
-        
+
         $accessid = new Typecho_Widget_Helper_Form_Element_Text('accessid', null, null, _t('Access Key ID'), _t('点击<a href="https://ak-console.aliyun.com/#/accesskey">这里</a>查看Access Key ID&Access Key Secret'));
         $form->addInput($accessid->addRule('required', _t('AccessID 不能为空！')));
-        
+
         $accesskey = new Typecho_Widget_Helper_Form_Element_Text('accesskey', null, null, _t('Access Key Secret：'));
         $form->addInput($accesskey->addRule('required', _t('AccessKey 不能为空！')));
-        
-        $domain = new Typecho_Widget_Helper_Form_Element_Text('domain', null, null, _t('OSS外网域名：'), _t('OSS外网域名,支持自定义绑定域名'));
-        $form->addInput($domain->addRule('required', _t('请填写空间绑定的域名！')));
-        
-        $savepath = new Typecho_Widget_Helper_Form_Element_Text('savepath', null, '{year}/{month}/', _t('保存路径格式：'), _t('附件保存路径的格式，默认为 Typecho 的 {year}/{month}/ 格式，注意<strong style="color:#C33;">前面不要加 / </strong>！<br />可选参数：{year} 年份、{month} 月份、{day} 日期'));
-        $form->addInput($savepath->addRule('required', _t('请填写保存路径格式！')));
+
+        $domain = new Typecho_Widget_Helper_Form_Element_Text('domain', null, null, _t('图片HTTP访问前缀：'), _t('OSS可供外网访问的域名前缀，比如https://cdn.mydomain.com'));
+        $form->addInput($domain->addRule('required', _t('请填写OSS图片服务的域名前缀！')));
+
+        $savepath = new Typecho_Widget_Helper_Form_Element_Text('savepath', null, 'img/{year}/{month}/', _t('图片保存路径格式：'), _t('图片附件保存路径的格式<br />可选参数：{year} 年份、{month} 月份、{day} 日期。<br /><strong style="color:#C33;">因为阿里云图片处理服务不支持故而GIF视为非图片</strong>'));
+        $form->addInput($savepath->addRule('required', _t('请填写图片保存路径格式！')));
+
+        $style = new Typecho_Widget_Helper_Form_Element_Text('style', null, null, _t('图片样式后缀：'), _t('阿里云图片处理服务的后缀，比如@600w.webp'));
+        $form->addInput($style);
+
+        $nonimg_domain = new Typecho_Widget_Helper_Form_Element_Text('nonimg_domain', null, null, _t('非图片HTTP访问前缀：'), _t('OSS可供外网访问的域名前缀，比如https://oss.mydomain.com'));
+        $form->addInput($nonimg_domain->addRule('required', _t('请填写OSS的域名前缀！')));
+
+        $nonimg_savepath = new Typecho_Widget_Helper_Form_Element_Text('nonimg_savepath', null, 'atta/{year}/{month}/', _t('非图片保存路径格式：'), _t('非图片附件保存路径的格式<br />可选参数：{year} 年份、{month} 月份、{day} 日期'));
+        $form->addInput($nonimg_savepath->addRule('required', _t('请填写非图片保存路径格式！')));
     }
-    
+
     // 个人用户配置面板
     public static function personalConfig(Typecho_Widget_Helper_Form $form)
     {}
@@ -98,23 +107,32 @@ class AliOSS_Plugin implements Typecho_Plugin_Interface
         $obj->delete_object($option->bucket, $filepath);
     }
     
+    public static function isImage($ext)
+    {
+        return in_array($ext, array('jpg', 'jpeg', 'bmp', 'png', 'tiff'));
+    }
+
     // 上传文件
     public static function uploadFile($file, $content = null)
     {
-		// 获取上传文件
+        // 获取上传文件
         if (empty($file['name'])) return false;
-		$option = self::getConfig();
-		if(!isset($option->accessid)){
-			return false;
-		}
-		self::initSDK();
+        $option = self::getConfig();
+        if (!isset($option->accessid)) {
+            return false;
+        }
+        self::initSDK();
         $obj = new ALIOSS($option->accessid, $option->accesskey, $option->endpoint);
         // 校验扩展名
         $part = explode('.', $file['name']);
         $ext = (($length = count($part)) > 1) ? strtolower($part[$length - 1]) : '';
         if (!Widget_Upload::checkFileType($ext)) return false;
         // 保存位置
-        $savename = date('Y/m/') . sprintf('%u', crc32(uniqid())) . '.' . $ext;
+        $savename = str_replace(
+                array('{year}', '{month}', '{day}'),
+                array(date('Y'), date('m'), date('d')),
+                ltrim(self::isImage($ext) ? $option->savepath : $option->nonimg_savepath, '/')
+            ) . sprintf('%u', crc32(uniqid())) . '.' . $ext;
         $response = $obj->upload_file_by_file($option->bucket, $savename, $file['tmp_name']);
         if ($response->status===200) {
             return array(
@@ -151,6 +169,10 @@ class AliOSS_Plugin implements Typecho_Plugin_Interface
     public static function attachmentHandle(array $content)
     {
         $option = self::getConfig();
-        return Typecho_Common::url($content['attachment']->path, $option->domain);
+        $isImage = self::isImage($content['attachment']->type);
+        return Typecho_Common::url(
+            $content['attachment']->path,
+            $isImage ? $option->domain : $option->nonimg_domain
+        ) . ($isImage ? $option->style : '');
     }
 }
