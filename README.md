@@ -6,7 +6,7 @@ typecho附件上传至阿里云OSS
 > 参考[OSS开发者资源]    —— [OSS文档](http://www.aliyun.com/product/oss?spm=5176.2020520105.103.15.HAyFbj#Help) 
 
 ## 使用方法
-* ①`AliOSS`文件夹上传至:/usr/plugins,插件文件名应为`AliOSS` ![示例](https://o0z4bgym5.qnssl.com/QQ%E5%9B%BE%E7%89%8720160217142457.png)
+* ①将所有文件解压到`AliOSS`文件夹,上传至:/usr/plugins,插件文件夹名应为`AliOSS` ![示例](https://o0z4bgym5.qnssl.com/QQ%E5%9B%BE%E7%89%8720160217142457.png)
 
 * ②启用插件
 
