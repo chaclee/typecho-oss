@@ -16,5 +16,5 @@ typecho附件上传至阿里云OSS
  
  
 ###请注意:
-> * 请勿修改插件文件夹名,要与`Plugin.php`中的{$name}_Plugin一致,否则无法使用
+> * 确保插件文件夹名为`AliOSS`,要与`Plugin.php`中的{$name}_Plugin一致,否则无法使用
 > * 所选地域要与bucket一致
